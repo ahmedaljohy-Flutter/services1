@@ -1,0 +1,5 @@
+{% extends 'deliverys/base.html' %}
+{% block content %}
+<h2>Confirm Delete</h2>
+<form method="post">{% csrf_token %}<p>Are you sure?</p><button type="submit">Yes, delete</button></form>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'deliverys/base.html' %}
+{% block content %}
+<h2>Deliveries</h2>
+<a href="{% url 'delivery_add' %}">Add New Delivery</a>
+<table border="1">
+<tr><th>Title</th><th>Description</th><th>Actions</th></tr>
+{% for delivery in deliveries %}
+<tr>
+<td>{{ delivery.title }}</td>
+<td>{{ delivery.description }}</td>
+<td>
+<a href="{% url 'delivery_edit' delivery.pk %}">Edit</a>
+<a href="{% url 'delivery_delete' delivery.pk %}">Delete</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
