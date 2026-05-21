@@ -46,7 +46,6 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-    'django.contrib.sessions.middleware.SessionMiddleware',
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -122,8 +121,15 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-DEBUG = False
-ALLOWED_HOSTS = ['yourusername.pythonanywhere.com']
+DEBUG = True
+ALLOWED_HOSTS = ['*']
 
 # اجمع كل ملفات static هنا عند collectstatic
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# إعدادات روابط التوجيه لنظام تسجيل الدخول (مسارات مطلقة وآمنة)
+LOGIN_URL = '/deliverys/login/'
+LOGIN_REDIRECT_URL = '/deliverys/'
+LOGOUT_REDIRECT_URL = '/deliverys/login/'
+
+

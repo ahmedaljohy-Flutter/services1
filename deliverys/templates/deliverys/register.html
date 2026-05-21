@@ -1,4 +1,27 @@
 {% extends 'deliverys/base.html' %}
+
+{% block title %}إنشاء حساب جديد - ديليفري إكسبريس{% endblock %}
+
 {% block content %}
-<form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Register</button></form>
-{% endblock %}
+<div class="premium-card form-card">
+    <div class="card-header-bar" style="margin-bottom: 20px; justify-content: center;">
+        <h2 class="card-title">📝 إنشاء حساب جديد</h2>
+    </div>
+    
+    <form method="post" class="premium-form">
+        {% csrf_token %}
+        <div class="form-body">
+            {{ form.as_p }}
+        </div>
+        
+        <div class="form-footer" style="flex-direction: column; gap: 15px; width: 100%;">
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem; border-radius: 8px;">
+                ✨ تسجيل الحساب والبدء
+            </button>
+            <a href="{% url 'login' %}" class="form-link" style="font-size: 0.95rem; text-decoration: none;">
+                🚪 العودة لصفحة تسجيل الدخول
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

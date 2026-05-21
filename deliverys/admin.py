@@ -3,6 +3,6 @@ from .models import Delivery
 
 @admin.register(Delivery)
 class DeliveryAdmin(admin.ModelAdmin):
-    list_display = ('title', 'delivered_by', 'created_at')
-    search_fields = ('title', 'description')
+    list_display = ('delv_name', 'delivered_by', 'created_at')
+    search_fields = ('delv_name', 'description')
     list_filter = ('created_at',)

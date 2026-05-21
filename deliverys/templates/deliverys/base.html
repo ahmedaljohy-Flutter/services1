@@ -1,19 +1,90 @@
 {% load static %}
-<html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}نظام إدارة التوصيلات Express{% endblock %}</title>
+    <!-- استيراد خطوط Google Fonts لتصميم احترافي -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- استيراد ورقة الأنماط العصرية -->
     <link rel="stylesheet" href="{% static 'deliverys/css/style.css' %}">
 </head>
 <body>
-<nav>
-    <a href="{% url 'delivery_list' %}">Home</a>
-    {% if user.is_authenticated %}
-    <a href="{% url 'delivery_add' %}">Add Delivery</a>
-    <span>Welcome, {{ user.username }}!</span>
-    <form action="{% url 'logout' %}" method="post">{% csrf_token %}<button type="submit">Logout</button></form>
-    {% else %}
-    <a href="{% url 'login' %}">Login</a>
+
+    <!-- شريط التنقل العصري -->
+    <nav class="premium-nav">
+        <div class="nav-container">
+            <a href="{% url 'delivery_list' %}" class="nav-brand">
+                <span class="brand-icon">🚀</span>
+                <span class="brand-text">ديليفري إكسبريس</span>
+            </a>
+            
+            <div class="nav-menu">
+                <a href="{% url 'delivery_list' %}" class="nav-link {% if request.resolver_match.url_name == 'delivery_list' %}active{% endif %}">الرئيسية</a>
+                {% if user.is_authenticated %}
+                    {% if perms.deliverys.add_delivery %}
+                        <a href="{% url 'delivery_add' %}" class="nav-link btn-add {% if request.resolver_match.url_name == 'delivery_add' %}active{% endif %}">➕ إضافة توصيلة</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="nav-user-actions">
+                {% if user.is_authenticated %}
+                    <div class="user-profile-badge">
+                        <span class="welcome-text">مرحباً، <strong class="username-highlight">{{ user.username }}</strong></span>
+                        {% if user.is_superuser %}
+                            <span class="role-badge role-admin">المسؤول الكامل</span>
+                        {% elif user.groups.all.0.name == 'Manager' %}
+                            <span class="role-badge role-manager">مدير الصلاحيات</span>
+                        {% else %}
+                            <span class="role-badge role-employee">موظف (مشاهدة)</span>
+                        {% endif %}
+                    </div>
+                    <form action="{% url 'logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-logout">
+                            <span class="btn-logout-icon">🚪</span> خروج
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn-login">تسجيل الدخول</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- منطقة عرض رسائل وتنبيهات النظام -->
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="alert-message alert-{{ message.tags }}">
+                    <span class="alert-icon">
+                        {% if message.tags == 'success' %}✅
+                        {% elif message.tags == 'error' %}⚠️
+                        {% elif message.tags == 'warning' %}🔔
+                        {% else %}ℹ️{% endif %}
+                    </span>
+                    <span class="alert-text">{{ message }}</span>
+                    <button class="alert-close-btn" onclick="this.parentElement.remove();">&times;</button>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
-</nav>
-{% block content %}{% endblock %}
+
+    <!-- المحتوى الأساسي للصفحات -->
+    <main class="main-content">
+        <div class="content-container animate-fade-in">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="premium-footer">
+        <p>&copy; 2026 نظام إدارة التوصيلات Express. جميع الحقوق محفوظة.</p>
+    </footer>
+
 </body>
-</html>
+</html>

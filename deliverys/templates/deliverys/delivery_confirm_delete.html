@@ -1,5 +1,28 @@
 {% extends 'deliverys/base.html' %}
+
+{% block title %}تأكيد حذف الشحنة - ديليفري إكسبريس{% endblock %}
+
 {% block content %}
-<h2>Confirm Delete</h2>
-<form method="post">{% csrf_token %}<p>Are you sure?</p><button type="submit">Yes, delete</button></form>
-{% endblock %}
+<div class="premium-card form-card">
+    <div class="delete-confirm-box">
+        <span class="delete-warning-icon">⚠️</span>
+        <h2 class="delete-title">تأكيد عملية حذف الشحنة</h2>
+        <p class="delete-desc">
+            هل أنت متأكد تماماً من رغبتك في حذف هذه الشحنة؟<br>
+            <strong style="color: var(--danger-color); font-weight: 700;">تحذير: لا يمكن التراجع عن هذا الإجراء بعد تنفيذه!</strong>
+        </p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="delete-actions">
+                <button type="submit" class="btn btn-danger" style="padding: 10px 24px;">
+                    🔥 نعم، قم بالحذف نهائياً
+                </button>
+                <a href="{% url 'delivery_list' %}" class="btn btn-secondary" style="padding: 10px 24px;">
+                    🔄 إلغاء العملية والرجوع
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

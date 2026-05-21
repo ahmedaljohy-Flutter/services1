@@ -1,10 +1,27 @@
 {% extends 'deliverys/base.html' %}
 
+{% block title %}نموذج شحنة التوصيل - ديليفري إكسبريس{% endblock %}
+
 {% block content %}
-<h2>Delivery Form</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
-{% endblock %}
+<div class="premium-card form-card">
+    <div class="card-header-bar" style="margin-bottom: 20px;">
+        <h2 class="card-title">✍️ نموذج تفاصيل التوصيلة</h2>
+    </div>
+    
+    <form method="post" class="premium-form">
+        {% csrf_token %}
+        <div class="form-body">
+            {{ form.as_p }}
+        </div>
+        
+        <div class="form-footer" style="margin-top: 30px;">
+            <button type="submit" class="btn btn-primary" style="padding: 10px 24px;">
+                💾 حفظ التغييرات
+            </button>
+            <a href="{% url 'delivery_list' %}" class="btn btn-secondary">
+                🔄 إلغاء والعودة
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

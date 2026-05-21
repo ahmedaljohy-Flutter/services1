@@ -1,4 +1,31 @@
 {% extends 'deliverys/base.html' %}
+
+{% block title %}تسجيل الدخول - ديليفري إكسبريس{% endblock %}
+
 {% block content %}
-<form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Login</button></form>
-{% endblock %}
+<div class="premium-card form-card">
+    <div class="card-header-bar" style="margin-bottom: 20px; justify-content: center;">
+        <h2 class="card-title">🔐 تسجيل الدخول للنظام</h2>
+    </div>
+    
+    <form method="post" class="premium-form">
+        {% csrf_token %}
+        <div class="form-body">
+            {{ form.as_p }}
+        </div>
+        
+        <div class="form-footer">
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 1rem; border-radius: 8px;">
+                🚀 دخول آمن
+            </button>
+        </div>
+    </form>
+    
+    <div style="text-align: center; margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 15px;">
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+            ليس لديك حساب بعد؟ 
+            <a href="{% url 'register_account' %}" class="form-link" style="margin-right: 5px;">إنشاء حساب جديد</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

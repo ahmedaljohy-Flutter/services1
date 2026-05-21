@@ -1,18 +1,78 @@
 {% extends 'deliverys/base.html' %}
+
+{% block title %}قائمة التوصيلات النشطة - ديليفري إكسبريس{% endblock %}
+
 {% block content %}
-<h2>Deliveries</h2>
-<a href="{% url 'delivery_add' %}">Add New Delivery</a>
-<table border="1">
-<tr><th>Title</th><th>Description</th><th>Actions</th></tr>
-{% for delivery in deliveries %}
-<tr>
-<td>{{ delivery.title }}</td>
-<td>{{ delivery.description }}</td>
-<td>
-<a href="{% url 'delivery_edit' delivery.pk %}">Edit</a>
-<a href="{% url 'delivery_delete' delivery.pk %}">Delete</a>
-</td>
-</tr>
-{% endfor %}
-</table>
-{% endblock %}
+<div class="premium-card">
+    <div class="card-header-bar">
+        <h2 class="card-title">📦 إدارة وجدولة التوصيلات</h2>
+        {% if perms.deliverys.add_delivery %}
+            <a href="{% url 'delivery_add' %}" class="btn btn-primary">
+                ➕ إضافة توصيلة جديدة
+            </a>
+        {% endif %}
+    </div>
+
+    {% if deliveries %}
+        <div class="table-responsive">
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">اسم الشحنة / التوصيلة</th>
+                        <th style="width: 40%;">الوصف التفصيلي</th>
+                        <th style="width: 15%;">بواسطة</th>
+                        <th style="width: 20%; text-align: center;">العمليات المتاحة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for delivery in deliveries %}
+                        <tr>
+                            <td style="font-weight: 700; color: var(--primary-dark);">
+                                🚚 {{ delivery.delv_name }}
+                            </td>
+                            <td style="color: var(--text-muted);">
+                                {{ delivery.description }}
+                            </td>
+                            <td>
+                                <span style="background: #e2e8f0; padding: 4px 10px; border-radius: 50px; font-size: 0.85rem; font-weight: 600;">
+                                    👤 {{ delivery.delivered_by.username }}
+                                </span>
+                            </td>
+                            <td style="text-align: center;">
+                                <div class="actions-cell" style="justify-content: center;">
+                                    {% if perms.deliverys.change_delivery %}
+                                        <a href="{% url 'delivery_edit' delivery.pk %}" class="btn btn-secondary btn-sm">
+                                            ✏️ تعديل
+                                        </a>
+                                    {% endif %}
+                                    {% if perms.deliverys.delete_delivery %}
+                                        <a href="{% url 'delivery_delete' delivery.pk %}" class="btn btn-danger btn-sm">
+                                            🗑️ حذف
+                                        </a>
+                                    {% endif %}
+                                    {% if not perms.deliverys.change_delivery and not perms.deliverys.delete_delivery %}
+                                        <span style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">
+                                            🔒 عرض فقط
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 50px 20px; background: var(--primary-light); border-radius: var(--radius-md); border: 2px dashed rgba(58, 87, 232, 0.2);">
+            <div style="font-size: 3.5rem; margin-bottom: 15px; animation: pulse-slow 2s infinite;">🚚</div>
+            <h3 style="color: var(--primary-dark); font-weight: 800; margin-bottom: 8px;">لا توجد توصيلات مجدولة حالياً</h3>
+            <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 20px auto;">
+                ابتدئ بجدولة أول شحنة في النظام عن طريق الضغط على زر إضافة توصيلة (يتطلب صلاحيات مدير).
+            </p>
+            {% if perms.deliverys.add_delivery %}
+                <a href="{% url 'delivery_add' %}" class="btn btn-primary">➕ أضف توصيلتك الأولى</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
